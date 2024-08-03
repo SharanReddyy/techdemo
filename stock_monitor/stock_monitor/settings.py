@@ -40,17 +40,40 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'stock_data',
     'corsheaders',
-    # 'django.contrib.auth',
-    # 'django.contrib.contenttypes',
-    # 'rest_framework',
-    # 'corsheaders',
+
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
 
 
-# LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
-# LOGOUT_REDIRECT_URL = '/'  # Redirect to home page after logout
+
+# Add the following configurations added for auth, can be removed
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
+
+# Redirect URLs after login/logout (optional)
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_EMAIL_REQUIRED = True
+
+
+
+
 
 MIDDLEWARE = [
     # 'corsheaders.middleware.CorsMiddleware'
@@ -62,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -85,6 +109,35 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'stock_monitor.wsgi.application'
+
+
+
+#Added for auth, can be removed
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+
+# Disable email verification
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# Set to False if you don't want to require an email for registration
+ACCOUNT_EMAIL_REQUIRED = True
+
+#Testing this one too
+ACCOUNT_LOGIN_ON_SIGNUP = True
+
+
+
+#Added 3 Aug
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_USERNAME_REQUIRED = True
+
 
 
 # Database
